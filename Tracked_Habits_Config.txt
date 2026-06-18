@@ -1,0 +1,9 @@
+productivity:
+swim
+programming
+Health:
+3l Water
+2 healthy meals
+Creativity:
+sing
+paint

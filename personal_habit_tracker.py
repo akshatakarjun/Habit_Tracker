@@ -16,7 +16,7 @@ METRICS = [
 ]
 
 #Alternative when data file does not exist
-if not os.path.exists(DATA_FILE):
+if not os.path.exists(DATA_FILE) or (os.path.exists(DATA_FILE) and os.path.getsize(DATA_FILE) == 0):
     df = pd.DataFrame(columns=["Date"] + METRICS)
     df.to_csv(DATA_FILE, index=False)
 
@@ -42,8 +42,10 @@ for i, metric in enumerate(METRICS):
 
 #save and reload data button
 if st.button("Save & Update Dashboard", type="primary"):
-    current_df = pd.read_csv(DATA_FILE)
-    
+    try:
+        current_df = pd.read_csv(DATA_FILE)
+    except pd.errors.EmptyDataError:
+        current_df = pd.DataFrame(columns=["Date"] + METRICS)
     #prevent duplicating the date input
     current_df = current_df[current_df["Date"] != date_str]
     
